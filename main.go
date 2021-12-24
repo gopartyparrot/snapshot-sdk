@@ -6,9 +6,9 @@ import (
 )
 
 type TokenBalance struct {
-	OwnerAccount string     `json:"ownerAccount"`
-	Amount       uint64     `json:"amount,omitempty"`
-	SnapshotAt   *time.Time `json:"snapshotAt"`
+	OwnerAccount string    `json:"ownerAccount"`
+	Amount       uint64    `json:"amount,omitempty"`
+	SnapshotAt   time.Time `json:"snapshotAt"`
 }
 
 func (c *Client) FetchTokenBalance(tokenMint string, timestamp uint64) ([]TokenBalance, error) {
@@ -19,12 +19,12 @@ func (c *Client) FetchTokenBalance(tokenMint string, timestamp uint64) ([]TokenB
 }
 
 type ParrotVault struct {
-	Owner            string     `json:"owner"`
-	Vault            string     `json:"vault"`
-	VaultType        string     `json:"vaultType"`
-	DebtAmount       uint64     `json:"debtAmount,omitempty"`
-	CollateralAmount uint64     `json:"collateralAmount,omitempty"`
-	SnapshotAt       *time.Time `json:"snapshotAt,omitempty"`
+	Owner            string    `json:"ownerAccount"`
+	Vault            string    `json:"vault"`
+	VaultType        string    `json:"vaultType"`
+	DebtAmount       uint64    `json:"debtAmount,omitempty"`
+	CollateralAmount uint64    `json:"collateralAmount,omitempty"`
+	SnapshotAt       time.Time `json:"snapshotAt,omitempty"`
 }
 
 func (c *Client) FetchParrotVault(vaultType string, timestamp uint64) ([]ParrotVault, error) {
