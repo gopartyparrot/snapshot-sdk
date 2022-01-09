@@ -19,12 +19,9 @@ func (c *Client) FetchTokenBalance(tokenMint string, timestamp uint64) ([]TokenB
 }
 
 type ParrotVault struct {
-	Owner            string    `json:"ownerAccount"`
-	Vault            string    `json:"vault"`
-	VaultType        string    `json:"vaultType"`
-	DebtAmount       uint64    `json:"debtAmount,omitempty"`
-	CollateralAmount uint64    `json:"collateralAmount,omitempty"`
-	SnapshotAt       time.Time `json:"snapshotAt,omitempty"`
+	Owner            string `json:"ownerAccount"`
+	DebtWeight       uint64 `json:"debtWeight,omitempty"`
+	CollateralWeight uint64 `json:"collateralWeight,omitempty"`
 }
 
 func (c *Client) FetchParrotVault(vaultType string, timestamp uint64) ([]ParrotVault, error) {
