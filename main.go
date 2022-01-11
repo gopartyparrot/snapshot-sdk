@@ -2,13 +2,11 @@ package sdk
 
 import (
 	"fmt"
-	"time"
 )
 
 type TokenBalance struct {
-	OwnerAccount string    `json:"ownerAccount"`
-	Amount       uint64    `json:"amount,omitempty"`
-	SnapshotAt   time.Time `json:"snapshotAt"`
+	OwnerAccount string `json:"ownerAccount"`
+	Weight       uint64 `json:"weight,omitempty"`
 }
 
 func (c *Client) FetchTokenBalance(tokenMint string, timestamp uint64) ([]TokenBalance, error) {
