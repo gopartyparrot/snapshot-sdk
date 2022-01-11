@@ -29,19 +29,15 @@ func getTestHttpClient(t *testing.T) *Client {
 
 func TestSDK(t *testing.T) {
 	client := getTestHttpClient(t)
+	timestamp := uint64(1641499200)
 
-	tokenMint := "yUSD1iVx5cgmRREB81pJW8byQTaY3HwsPzeMLCm26Ne"
-	timestamp := uint64(1640152800000)
+	tokenMint := "yPRTUpLDftNej7p6QofNYgRArRXsm6Mvkzohj4bh4WM"
 	tokenBalances, err := client.FetchTokenBalance(tokenMint, timestamp)
-
 	require.NoError(t, err)
-
-	t.Logf("%+v\n", tokenBalances)
+	t.Logf("tokenBalances length %d", len(tokenBalances))
 
 	vaultType := "8PcJ5FmtmuYQCvBhaHkVY5DKVBn8BsMtV5RVqHU4h8ir"
-
 	vaults, err := client.FetchParrotVault(vaultType, timestamp)
-
 	require.NoError(t, err)
-	t.Logf("%+v\n", vaults)
+	t.Logf("vaults length %d", len(vaults))
 }
