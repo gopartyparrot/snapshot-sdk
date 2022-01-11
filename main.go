@@ -19,6 +19,9 @@ func (c *Client) FetchTokenBalance(tokenMint string, timestamp uint64) ([]TokenB
 	path := fmt.Sprintf("/token-balance/%s?epoch=%d", tokenMint, timestamp)
 	result := []TokenBalance{}
 	err := c.get(path, &result)
+	if err != nil {
+		c.Logger.Infow("fetched", "tokenBalance owners", len(result))
+	}
 	return result, err
 }
 
@@ -42,5 +45,8 @@ func (c *Client) FetchParrotVault(vaultType string, timestamp uint64) ([]ParrotV
 	path := fmt.Sprintf("/parrot-vaults/%s?epoch=%d", vaultType, timestamp)
 	result := []ParrotVault{}
 	err := c.get(path, &result)
+	if err != nil {
+		c.Logger.Infow("fetched", "parrotVault owners", len(result))
+	}
 	return result, err
 }
