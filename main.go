@@ -25,6 +25,16 @@ func (c *Client) FetchTokenBalance(tokenMint string, timestamp uint64) ([]TokenB
 	return result, err
 }
 
+func (c *Client) FetchTokenBalance2(tokenMint string, start, end uint64) ([]TokenBalance, error) {
+	path := fmt.Sprintf("/token-balance/%s?start=%d&end=%d", tokenMint, start, end)
+	result := []TokenBalance{}
+	err := c.get(path, &result)
+	if err != nil {
+		c.Logger.Infow("fetched", "tokenBalance owners", len(result))
+	}
+	return result, err
+}
+
 type ParrotVault struct {
 	Owner             string `json:"ownerAccount"`
 	DebtWeight_       string `json:"debtWeight,omitempty"`
@@ -43,6 +53,16 @@ func (pv ParrotVault) CollateralWeight() *big.Int {
 
 func (c *Client) FetchParrotVault(vaultType string, timestamp uint64) ([]ParrotVault, error) {
 	path := fmt.Sprintf("/parrot-vaults/%s?epoch=%d", vaultType, timestamp)
+	result := []ParrotVault{}
+	err := c.get(path, &result)
+	if err != nil {
+		c.Logger.Infow("fetched", "parrotVault owners", len(result))
+	}
+	return result, err
+}
+
+func (c *Client) FetchParrotVault2(vaultType string, start, end uint64) ([]ParrotVault, error) {
+	path := fmt.Sprintf("/parrot-vaults/%s?start=%d&end=%d", vaultType, start, end)
 	result := []ParrotVault{}
 	err := c.get(path, &result)
 	if err != nil {

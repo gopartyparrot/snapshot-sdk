@@ -5,9 +5,29 @@ import (
 	"os"
 	"testing"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/test-go/testify/require"
+	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
+
+var testLogger *zap.SugaredLogger
+
+var prodClient *Client
+
+func init() {
+	logger, _, _ := NewLogger(ZapConf{
+		Level: zapcore.DebugLevel,
+	}, os.Stdout)
+	testLogger = logger.Sugar()
+
+	c := &Client{
+		Host:   "https://snapshot-api.bunnyducky.com",
+		Client: http.DefaultClient,
+		Logger: testLogger,
+	}
+	prodClient = c
+}
 
 func getTestHttpClient(t *testing.T) *Client {
 	logger, recoverLog, err := NewLogger(ZapConf{
@@ -40,4 +60,16 @@ func TestSDK(t *testing.T) {
 	vaults, err := client.FetchParrotVault(vaultType, timestamp)
 	require.NoError(t, err)
 	t.Logf("vaults length %d", len(vaults))
+}
+
+func TestClient_FetchParrotVault2(t *testing.T) {
+	got, err := prodClient.FetchParrotVault2("2chxdDkAYXuhcosfasR6sMDMhZkHUW28ngmw5dnojufd", 1646752126, 1646824126)
+	require.NoError(t, err)
+	spew.Dump(got)
+}
+
+func TestClient_FetchTokenBalance2(t *testing.T) {
+	got, err := prodClient.FetchTokenBalance2("yAC4RaXvFZpNhnXZVgiiYj4cgC1G5SbgX5jzdaEXgyA", 1646752126, 1646824126)
+	require.NoError(t, err)
+	spew.Dump(got)
 }
