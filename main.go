@@ -3,11 +3,13 @@ package sdk
 import (
 	"fmt"
 	"math/big"
+
+	"github.com/gagliardetto/solana-go"
 )
 
 type TokenBalance struct {
-	OwnerAccount string `json:"ownerAccount"`
-	Weight_      string `json:"weight,omitempty"`
+	OwnerAccount solana.PublicKey `json:"ownerAccount"`
+	Weight_      string           `json:"weight,omitempty"`
 }
 
 func (tb TokenBalance) Weight() *big.Int {
@@ -20,7 +22,7 @@ func (c *Client) FetchTokenBalance(tokenMint string, timestamp uint64) ([]TokenB
 	result := []TokenBalance{}
 	err := c.get(path, &result)
 	if err != nil {
-		c.Logger.Infow("fetched", "tokenBalance owners", len(result))
+		c.Log.Info().Msgf("fetched tokenBalance owners len: %d", len(result))
 	}
 	return result, err
 }
@@ -30,15 +32,15 @@ func (c *Client) FetchTokenBalance2(tokenMint string, start, end uint64) ([]Toke
 	result := []TokenBalance{}
 	err := c.get(path, &result)
 	if err != nil {
-		c.Logger.Infow("fetched", "tokenBalance owners", len(result))
+		c.Log.Info().Msgf("fetched tokenBalance owners len: %d", len(result))
 	}
 	return result, err
 }
 
 type ParrotVault struct {
-	Owner             string `json:"ownerAccount"`
-	DebtWeight_       string `json:"debtWeight,omitempty"`
-	CollateralWeight_ string `json:"collateralWeight,omitempty"`
+	Owner             solana.PublicKey `json:"ownerAccount"`
+	DebtWeight_       string           `json:"debtWeight,omitempty"`
+	CollateralWeight_ string           `json:"collateralWeight,omitempty"`
 }
 
 func (pv ParrotVault) DebtWeight() *big.Int {
@@ -56,7 +58,7 @@ func (c *Client) FetchParrotVault(vaultType string, timestamp uint64) ([]ParrotV
 	result := []ParrotVault{}
 	err := c.get(path, &result)
 	if err != nil {
-		c.Logger.Infow("fetched", "parrotVault owners", len(result))
+		c.Log.Info().Msgf("fetched parrotVault owners len: %d", len(result))
 	}
 	return result, err
 }
@@ -66,7 +68,7 @@ func (c *Client) FetchParrotVault2(vaultType string, start, end uint64) ([]Parro
 	result := []ParrotVault{}
 	err := c.get(path, &result)
 	if err != nil {
-		c.Logger.Infow("fetched", "parrotVault owners", len(result))
+		c.Log.Info().Msgf("fetched parrotVault owners len: %d", len(result))
 	}
 	return result, err
 }

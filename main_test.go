@@ -6,9 +6,9 @@ import (
 	"testing"
 
 	"github.com/davecgh/go-spew/spew"
+	"github.com/rs/zerolog"
 	"github.com/test-go/testify/require"
 	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 )
 
 var testLogger *zap.SugaredLogger
@@ -16,32 +16,23 @@ var testLogger *zap.SugaredLogger
 var prodClient *Client
 
 func init() {
-	logger, _, _ := NewLogger(ZapConf{
-		Level: zapcore.DebugLevel,
-	}, os.Stdout)
-	testLogger = logger.Sugar()
+	logger := zerolog.New(os.Stdout)
 
 	c := &Client{
 		Host:   "https://snapshot-api.bunnyducky.com",
 		Client: http.DefaultClient,
-		Logger: testLogger,
+		Log:    &logger,
 	}
 	prodClient = c
 }
 
 func getTestHttpClient(t *testing.T) *Client {
-	logger, recoverLog, err := NewLogger(ZapConf{
-		Level: zapcore.DebugLevel,
-	}, os.Stdout)
-	t.Cleanup(recoverLog)
-	require.NoError(t, err)
-	sLogger := logger.Sugar()
-
+	logger := zerolog.New(os.Stdout)
 	client := &Client{
 		// Host: "http://127.0.0.1:3500",
 		Host:   "https://staging.partyparrot.finance",
 		Client: http.DefaultClient,
-		Logger: sLogger,
+		Log:    &logger,
 	}
 
 	return client

@@ -8,13 +8,13 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	"go.uber.org/zap"
+	"github.com/rs/zerolog"
 )
 
 type Client struct {
 	Host   string
 	Client *http.Client
-	Logger *zap.SugaredLogger
+	Log    *zerolog.Logger
 }
 
 func (c *Client) get(path string, result interface{}) error {
@@ -26,7 +26,10 @@ func (c *Client) get(path string, result interface{}) error {
 	if err != nil {
 		return err
 	}
-	c.Logger.Debugw("invest sdk post response", "path", path, "body bytes", len(respBodyBytes))
+	c.Log.Debug().
+		Str("path", path).
+		Str("body", string(respBodyBytes)).
+		Msg("invest sdk post response")
 	if resp.StatusCode != http.StatusOK {
 		return errors.Errorf("none ok status: %d", resp.StatusCode)
 	}
