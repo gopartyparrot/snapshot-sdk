@@ -30,7 +30,8 @@ func getTestHttpClient(t *testing.T) *Client {
 	logger := zerolog.New(os.Stdout)
 	client := &Client{
 		// Host: "http://127.0.0.1:3500",
-		Host:   "https://staging.partyparrot.finance",
+		// Host:   "https://staging.partyparrot.finance",
+		Host:   "https://snapshot-api.bunnyducky.com",
 		Client: http.DefaultClient,
 		Log:    &logger,
 	}

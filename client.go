@@ -28,7 +28,8 @@ func (c *Client) get(path string, result interface{}) error {
 	}
 	c.Log.Debug().
 		Str("path", path).
-		Str("body", string(respBodyBytes)).
+		// Str("body", string(respBodyBytes)).
+		Int("bodyLen", len(respBodyBytes)).
 		Msg("invest sdk post response")
 	if resp.StatusCode != http.StatusOK {
 		return errors.Errorf("none ok status: %d", resp.StatusCode)
