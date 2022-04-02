@@ -1,31 +1,30 @@
 package sdk
 
 import (
-	"math/big"
-
 	"github.com/gagliardetto/solana-go"
+	"github.com/shopspring/decimal"
 )
 
 type Weighter struct {
-	ByOwner map[solana.PublicKey]*big.Int //key: owner, value: owner weight
-	Sum     *big.Int                      //total weight
+	ByOwner map[solana.PublicKey]decimal.Decimal //key: owner, value: owner weight
+	Sum     decimal.Decimal                      //total weight
 }
 
 func NewWeighter() Weighter {
 	return Weighter{
-		ByOwner: make(map[solana.PublicKey]*big.Int),
-		Sum:     big.NewInt(0),
+		ByOwner: make(map[solana.PublicKey]decimal.Decimal),
+		Sum:     decimal.New(0, 0),
 	}
 }
 
-func (m *Weighter) Add(account solana.PublicKey, weight *big.Int) {
-	if weight.Cmp(big.NewInt(0)) <= 0 {
+func (m *Weighter) Add(account solana.PublicKey, weight decimal.Decimal) {
+	if weight.Cmp(decimal.New(0, 0)) <= 0 {
 		return
 	}
-	if _weight := m.ByOwner[account]; _weight == nil {
+	if w, ok := m.ByOwner[account]; !ok {
 		m.ByOwner[account] = weight
 	} else {
-		m.ByOwner[account] = _weight.Add(_weight, weight)
+		m.ByOwner[account] = w.Add(weight)
 	}
-	m.Sum = m.Sum.Add(m.Sum, weight)
+	m.Sum = m.Sum.Add(weight)
 }
