@@ -7,8 +7,8 @@ require (
 	github.com/gagliardetto/solana-go v1.4.0
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.26.1
+	github.com/shopspring/decimal v1.3.1
 	github.com/test-go/testify v1.1.4
-	go.uber.org/zap v1.19.1
 )
 
 require (
@@ -40,6 +40,7 @@ require (
 	go.opencensus.io v0.22.5 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
+	go.uber.org/zap v1.19.1 // indirect
 	golang.org/x/crypto v0.0.0-20211215165025-cf75a172585e // indirect
 	golang.org/x/sys v0.0.0-20210809222454-d867a43fc93e // indirect
 	golang.org/x/term v0.0.0-20201210144234-2321bbc49cbf // indirect
