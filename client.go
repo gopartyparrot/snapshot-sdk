@@ -32,6 +32,10 @@ func (c *Client) get(path string, result interface{}) error {
 		Int("bodyLen", len(respBodyBytes)).
 		Msg("invest sdk post response")
 	if resp.StatusCode != http.StatusOK {
+		if resp.StatusCode == http.StatusNotFound {
+			return ErrSnapshotNotFound
+		}
+
 		return errors.Errorf("none ok status: %d", resp.StatusCode)
 	}
 
